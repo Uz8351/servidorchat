@@ -192,3 +192,4 @@ lafunc(chatServClient);  //Llamada a lafun
     // El socket descriptor es cerrado
     close(sockDescriptor);
  }
+
