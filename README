@@ -1,0 +1,86 @@
+/*
+*********************
+servidor_chat.c
+*********************
+Hilario Iglesias Martínez.
+-------------------------
+SERVIDOR.
+----------------------------------
+Volviendo hacía atrás a algunos
+programas sobre sockes ya publicados,
+se ha realizado este Sevidor para chat,
+con el fin de poder interactuar
+con el a través de dos consolas
+Linux en el mismo ordenador,
+utilizando la dirección Localhost (127.0.0.1),
+u otra en la cual la configración del
+cortafuegos lo permita.
+Una vez abierto, y a la escucha el servidor,
+se podrán interactuar mensajes con él
+a través del comando linux, por ejemplo
+nc 127.0.0.1 5898, o utilizando el antiguo
+telnet.
+Deberemos de colocar como atributo del comando
+nc de linux la ip y el puerto establecido
+en el servidor previamente.
+El programa hace una llamada al inicio al comando de linux
+a ifconfig, con el fin de probar el mismo
+con las Ips, idoneas.
+------------------------------------------
+En este ejemplo se puede ver, en un volcado
+de memoria, como se dispone la ip y el puerto
+en memoria según se su tratamiento.
+formatos Big Endian, o Little Endian
+Como en otros programas puestos aquí,
+se podría hacer un seguimiento de
+los mensajes con wireshark para analizar
+los paquetes y entender su proceso.
+---------------------------
+*********************************
+Este programa ha sido realizado en.
+LINUX Ubuntu 20.04.4 LTS.
+Bajo el standard ANSI C.-C-11
+Consola de Linux.
+*****************************
+Compilacion.
+$ gcc servidor_chat.c -o servidor_chat
+//**************************************
+
+Ejecucion y un posible ejemplo de salida por 
+consola. Para interrmpir el programa 
+utilizar CONTRO C.
++++++++++++++++++++++++++++++++++++++
+./servidor_chat
+++++++++++++++++++++++++++++++++++
+IMPRIME POR CONSOLA.
+------------------------------
+
+Tu sistema es Little Endian
++++++++++++++++++++++++++++++++++++++++++++++++
+Introduce una IP
+127.0.0.1
+++++++++++++++++
+*******************
+Introduce un Puerto:
++++++++++++++++++++
+8767
+-------------------
+Valor de entrada: 8767
+Socket creado con éxito
+Tamaño de la strucServidor = 16
+La IP local es: 127.0.0.1
+El Puerto local de conexión es: 8767
+----------------------------------------------
+Disposición en memoria del Puerto y la IP
+----------------------------------------------
+02 00 22 3f 7f 00 00 01 00 00 00 00 00 00 00 00 || .."?............
+c2 00 00 00 00 00 00 00 f7 a0 ba dc fc 7f 00 00 || ................
+38 37 36 37 00 7f 00 00 ad 79 54 c1 92 55 00 00 || 8767.....yT..U..
+e8 72 03 3b 66 7f 00 00 60 79 54 c1 92 55 00 00 || .r.;f...`yT..U..
+31 32 37 2e 30 2e 30 2e 31 00 54 c1 92 55 00 00 || 127.0.0.1.T..U..
+00 a2 ba dc fc 7f 00 00 00 a5 6b 08 1f 31 1f 71 || ..........k..1.q
+00 00 00 00 00 00 00 00 83 a0 e6 3a || ...........:
+----------------------------------------------
+Socket enlazado con éxito.
+El Servidor está preparado
+
