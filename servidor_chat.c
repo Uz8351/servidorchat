@@ -13,6 +13,7 @@ servidor_chat.c
 #include<netinet/in.h>
 #include<netdb.h>
 #define VERDE "\x1b[32m"
+//#define AZUL   "\x1b[34m"
 struct sockaddr;//Declaración de la estructura sockaddr contenidas en #include<netinet/in.h>
 //Declaración de funciones
 void SaberComoEs() //Saber como es el sistema.
@@ -28,33 +29,9 @@ printf("+++++++++++++++++++++++++++++++++++++++++++++++\n");
    return ;
 }
  
-//******************************************** 2 llamada Volcado de IP y puerto.
-/*void dump(const unsigned char *datos_de_buffer, const unsigned int longitud)
- {
-    unsigned int byte;
-    unsigned int c, n;
-    for(c=0; c < longitud; c++) {
-    byte = datos_de_buffer[c];
-    printf("%02x ", datos_de_buffer[c]);  // Mostrar bytes en  hexadecimal
-    if(((c%16)==15) || (c==longitud-1)) {
-    for(n=0; n < 15-(c%16); n++)
-    printf("   ");
-    printf("|| ");
-    for(n=(c-(c%16)); n <= c; n++) {  // Imprimir bytes por linea
-    byte = datos_de_buffer[n];
-    if((byte > 31) && (byte < 127)) // Rangos de impresión en consola Linux
-    printf(VERDE"%c", byte);
-    else
-    printf(".");
-    }
-    printf("\n"); // Al final de cada linea salto
-    } // cierre de  if
-    } // cierre de  for
-} //cierre de función principal
- */
-//+++++++++++++++++++++++++++++++++++++++++++ 3 llamada
  
-// Declaramos una función destinada para el chat cliente servidor.
+/*Declaramos una función destinada para el chat cliente servidor.
+donde se establece el buffer para el intercambio*/
 void lafunc(int chatServClient)
 {
     char buferIntercambio[90]; //Reserva de buffer para el intercambio de 90bytes write y read
@@ -93,15 +70,22 @@ void lafunc(int chatServClient)
         }
         }
         }
- 
+//***************** 
 // Inicio de main
- 
- 
+  
 int main()
 {
     char Codigo_ascii[17];
     size_t i, j;
- 
+    int  salida;    /* Salida del comando */
+    char comando[60];   /* Comando a ejecutar */
+ //**********************************
+printf ( "LLAMADA (ifconfig) con system.\n");
+sprintf (comando, "ifconfig ");
+salida = system (comando);
+
+  //********************************   
+
 /*Llamamos a esta función
 para saber el tipo de alojamiento en tu sistema*/
 SaberComoEs();
@@ -128,7 +112,7 @@ printf("++++++++++++++++\n");
  /*En vez de pasar el puerto por argumento de main,
   lo hacemos por medio de la entrada standard scanf.*/
 printf("*******************\n" );
-printf("Introduce un Puerto:\n");
+printf("Introduce un Puerto(Mejor,superior a 1000):\n");
 printf("+++++++++++++++++++\n");
 char puerto [20];
 scanf("%s",puerto);
@@ -158,13 +142,9 @@ printf("La IP local es: %s\n", inet_ntoa(strucServidor.sin_addr));
 printf("El Puerto local de conexión es: %d\n", (int) ntohs(strucServidor.sin_port));
 printf("----------------------------------------------\n");
 printf("Disposición en memoria del Puerto y la IP\n");
-printf("----------------------------------------------\n");
 
-//unsigned char *puntero;
-//puntero=&strucServidor;
-  // dump(&strucServidor, 108);
-//dump(&sockDescriptor, 108);
-//**************************************************************
+
+//Rutina de volcado para ver posición en memoria del puerto e IP
 
 for (i = 0; i < 123; ++i) {
         printf("%02X ", ((unsigned char*)&strucServidor)[i]);
@@ -183,24 +163,9 @@ for (i = 0; i < 123; ++i) {
             }
 
 
-
-
-
-
-
-
-
-//***************************************************************
-
-
-
-
-
-
-
-
-printf("----------------------------------------------\n");
 // Ahora el Servidor está preparado para escuchar
+printf("\n");
+printf("***********************************************\n");
 printf("Socket enlazado con éxito.\n");
     if ((listen(sockDescriptor, 5)) != 0) { //Ponemos el socket a escuchar, y  una cola máxima de 5 clientes.
         printf("La escucha de Clientes ha fallado...\n");
@@ -222,16 +187,8 @@ chatServClient = accept(sockDescriptor, (struct sockaddr *)&struCliente, &Larg);
     // Llamada a la función lafunc que trabajará con los buffer de mensajes
 
 
-lafunc(chatServClient);
-//***************************************************************
-
-
-
-
-//***********************************************************
-
+lafunc(chatServClient);  //Llamada a lafun
  
     // El socket descriptor es cerrado
     close(sockDescriptor);
- 
-}//C
+ }
